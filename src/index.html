@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>UFC Player Profiles</title>
+    <title>Meme Generator</title>
   </head>
   <body>
     <div class="container">
-      <h1>Search Your Fighter</h1>
+      <div class="jumbotron">
+      <h1>Generate Your Meme</h1>
+    </div>
+      <br>
+      <form id="memeForm">
+        <label for="inputSearch">Search Memes</label>
+        <input id="inputSearch" type="text">
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button class="btn btn-danger"><a href="index.html" style="color: white">Refresh</a></button>
+      </form>
       <hr>
-      <form id="fighterForm">
-        <label for="firstName">Enter Name: </label>
-        <input id="firstName" type="text">
+      <form id="commentForm">
+        <label for="comments">Add comments</label>
+        <input id="comments" type="text">
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
       <hr>
-
-      <h3>Search Division </h3>
-      <form id="divisionForm">
-        <label for="">Enter Division: </label>
-        <input id="divisionClass" type="text">
-        <button type="submit" class="btn btn-danger">Submit</button>
-      </form>
+   
+    <div id="results">
     </div>
-
-    <div id="nameResult"></div>
-    <div id="divisionResult"></div>
-
-
+    <div>
+      <h1 id="memeComments"></h1>
+    </div>
+ 
+    <div class="showErrors"></div>
 
   </body>
 </html>

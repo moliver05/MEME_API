@@ -2,35 +2,72 @@ import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
-import { Fighter } from './../src/ufc.js';
 
 $(document).ready(function() {
-  let newFighter = new Fighter;
-  let listPromise = newFighter.searchFighterName(newFighter);
-   listPromise.then(function (response) {
-     let body = JSON.parse(response);
-     for (let i = 0; i < body.fighters.length; i++) {
-       $("#nameResult").append(`<li>${body.fighters[i]}</li>`);
-     }
-   });
+  $('#memeForm').submit(function(event) {
+    event.preventDefault();
+    // location.reload();
 
 
-   $("#fighterForm").submit(function (event) {
-     event.preventDefault();
-     let searchFighter = $("#firstName").val();
-     let promise = newFighter.searchFighterName(searchFighter);
-     let list;
-
-  //    promise.then(function (response) {
-  //      let body = JSON.parse(response);
-  //      list = body.fighters;
-  //      let  = "";
-  //      for (let i = 1; i < 0; i++) {
-  //     $("#nameResult").append(`<li>${body.fighters[i]}</li>`);
-   //
-  //    });
-  //  });
+    const search = $('#inputSearch').val();
+    $('#inputSearch').val("");
 
 
- });
+    let request = new XMLHttpRequest();
+    const url = `http://version1.api.memegenerator.net//Generators_Search?q=search=${search}&pageIndex=0&pageSize=25&apiKey=${process.env.API_KEY}`;
+
+    request.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        const response = JSON.parse(this.responseText);
+        getElements(response);
+      }
+    }
+    request.open("GET", url, true);
+    request.send();
+    const getElements = function(response) {
+      let userMeme = response.result;
+      for(var i=0; i<userMeme.length; i++){
+      let newUrl = userMeme[i].imageUrl;
+      let name = userMeme[i].displayName;
+      $("#results").append( "<li>" + name + "</li>" + "<img id=" + "memeForm"  + " src="+newUrl+">");
+     
+    }
+
+  } 
+
+  const addComment = $('#inputSearch').val();
+    $('#inputSearch').val("");
+
+
+    let request = new XMLHttpRequest();
+    const url = `http://version1.api.memegenerator.net//Generators_Search?q=search=${search}&pageIndex=0&pageSize=25&apiKey=${process.env.API_KEY}`;
+
+    request.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        const response = JSON.parse(this.responseText);
+        getElements(response);
+      }
+    }
+    
+    request.open("POST", url, true);
+    request.send();
+    const getElements = function(response) {
+      let userMeme = response.result;
+      for(var i=0; i<userMeme.length; i++){
+      let newUrl = userMeme[i].imageUrl;
+      let name = userMeme[i].displayName;
+      $("#results").append( "<li>" + name + "</li>" + "<img id=" + "memeForm"  + " src="+newUrl+">");
+     
+    }
+  }
+
+
+  });
+  $("#commentForm").submit(function(event){
+    event.preventDefault();
+    let comments = $("#comments").val();
+    $("#comments").val("");
+     $("#memeComments").text(comments);
+  });
+
 });
